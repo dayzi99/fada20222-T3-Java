@@ -3,7 +3,6 @@ package rojinegros;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.naming.OperationNotSupportedException;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -44,27 +43,113 @@ public class ArbolRojinegro {
      */
 
     public void insertar(int x) throws Exception {
-        throw new OperationNotSupportedException();
+            if (x >= this.valor) {
+            if (this.der == null) {
+                this.der = new ArbolRojinegro(null, null, x, black);
+            } else {
+                this.der.insertar(x);
+            }
+        } else {
+            if (this.izq == null) {
+                this.izq = new ArbolRojinegro(null, null, x, black);
+            } else {
+                this.izq.insertar(x);
+            }
+        }
     }
 
     public int maximo() throws Exception {
-        throw new OperationNotSupportedException();
+        ArbolRojinegro nodoActual = this;
+        while (nodoActual.getDer() != null) {
+            nodoActual = nodoActual.getDer();
+        }
+        return nodoActual.getValor();
     }
 
     public int minimo() throws Exception {
-        throw new OperationNotSupportedException();
+        ArbolRojinegro nodoActual = this;
+        while (nodoActual.getIzq() != null) {
+            nodoActual = nodoActual.getIzq();
+        }
+        return nodoActual.getValor();
     }
 
     public ArbolRojinegro search(int x) throws Exception {
-        throw new OperationNotSupportedException();
+        if (this.valor == x) {
+            return this;
+        } else {
+            if (x > this.valor) {
+                if (this.getDer() != null) {
+                    return this.getDer().search(x);
+                } else {
+                    return null;
+                }
+            } else {
+                if (this.getIzq() != null) {
+                    return this.getIzq().search(x);
+                } else {
+                    return null;
+                }
+            }
+        }
     }
 
     public void rotacionIzquierda(int x) throws Exception {
-        throw new OperationNotSupportedException();
+        ArbolRojinegro arbolRotar = search(x);
+        ArbolRojinegro padre = arbolRotar.getFather();
+        ArbolRojinegro nuevaRaiz = arbolRotar.getDer();
+        if (padre == null) {
+            ArbolRojinegro nuevoArbol = new ArbolRojinegro(arbolRotar.getIzq(),
+                    arbolRotar.getDer(),
+                    arbolRotar.getValor(),
+                    arbolRotar.isBlack());
+            nuevoArbol.setDer(nuevaRaiz.getIzq());
+            nuevaRaiz.setIzq(nuevoArbol);
+            nuevoArbol.setFather(nuevaRaiz);
+            nuevaRaiz.setFather(padre);
+            arbolRotar.setValor(nuevaRaiz.getValor());
+            arbolRotar.setDer(nuevaRaiz.getDer());
+            arbolRotar.setIzq(nuevaRaiz.getIzq());
+            arbolRotar.setBlack(nuevaRaiz.isBlack());
+        } else {
+            arbolRotar.setDer(nuevaRaiz.getIzq());
+            arbolRotar.setFather(nuevaRaiz);
+            nuevaRaiz.setIzq(arbolRotar);
+            if (nuevaRaiz.getValor() < padre.getValor()) {
+                padre.setDer(nuevaRaiz);
+            } else {
+                padre.setIzq(nuevaRaiz);
+            }
+        }
     }
 
     public void rotacionDerecha(int x) throws  Exception {
-        throw new OperationNotSupportedException();
+        ArbolRojinegro arbolRotar = search(x);
+        ArbolRojinegro padre = arbolRotar.getFather();
+        ArbolRojinegro nuevaRaiz = arbolRotar.getIzq();
+        if (padre == null) {
+            ArbolRojinegro nuevoArbol = new ArbolRojinegro(arbolRotar.getIzq(),
+                    arbolRotar.getDer(),
+                    arbolRotar.getValor(),
+                    arbolRotar.isBlack());
+            nuevoArbol.setIzq(nuevaRaiz.getDer());
+            nuevaRaiz.setDer(nuevoArbol);
+            nuevoArbol.setFather(nuevaRaiz);
+            nuevaRaiz.setFather(padre);
+            arbolRotar.setValor(nuevaRaiz.getValor());
+            arbolRotar.setDer(nuevaRaiz.getDer());
+            arbolRotar.setIzq(nuevaRaiz.getIzq());
+            arbolRotar.setBlack(nuevaRaiz.isBlack());
+        } else {
+            arbolRotar.setIzq(nuevaRaiz.getDer());
+            arbolRotar.setFather(nuevaRaiz);
+            nuevaRaiz.setDer(arbolRotar);
+            if (nuevaRaiz.getValor() < padre.getValor()) {
+                padre.setIzq(nuevaRaiz);
+            } else {
+                padre.setDer(nuevaRaiz);
+            }
+        }
     }
 
     /*
