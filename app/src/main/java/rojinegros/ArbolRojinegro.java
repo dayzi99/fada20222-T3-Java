@@ -19,8 +19,7 @@ public class ArbolRojinegro {
 
     @Getter
     @Setter
-    private ArbolRojinegro der;
-    
+    private ArbolRojinegro der; 
     @Getter
     @Setter
     private ArbolRojinegro father;
