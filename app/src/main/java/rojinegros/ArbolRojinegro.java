@@ -14,6 +14,10 @@ public class ArbolRojinegro {
     @Getter
     @Setter
     private ArbolRojinegro der;
+    
+    @Getter
+    @Setter
+    private ArbolRojinegro father;
 
     @Getter
     @Setter
